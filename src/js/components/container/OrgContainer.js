@@ -66,10 +66,6 @@ class OrgContainer extends Component {
 	}
 
 	handleRefreshOrgs(e) {
-		if(!this.state.defaultProjectExists) {
-			this.showAlertMessage("danger", "Error: Please specify a default project first");
-			return;
-		}
 		this.setState({showLoaidngImage: true});
 		axios.post("/api/listOrg", {
             directory: this.state.currentProject.directory
@@ -265,18 +261,18 @@ class OrgContainer extends Component {
 				for(let i = 0; i < this.state.nonScratchOrgs.length; i++) {
 					if(this.state.nonScratchOrgs[i].username === userName) {
 						this.state.nonScratchOrgs[i].alias = alias;
-					} 
+					}
 				}
 				for(let i = 0; i < this.state.scratchOrgs.length; i++) {
 					if(this.state.scratchOrgs[i].username === userName) {
 						this.state.scratchOrgs[i].alias = alias;
-					} 
+					}
 				}
 				this.setState ({
 					nonScratchOrgs: this.state.nonScratchOrgs,
 					scratchOrgs: this.state.scratchOrgs
 				});
-				
+
 				let orgObj = {};
 				orgObj.orgs = {};
 				orgObj.orgs.scratchOrgs = this.state.scratchOrgs;
@@ -290,7 +286,7 @@ class OrgContainer extends Component {
 			}
 		});
 	}
-	
+
 	showAlertMessage(alertClass, alertMessage) {
 		this.setState({
 			showAlertMessage: true,
@@ -323,15 +319,15 @@ class OrgContainer extends Component {
 			<div>
 				{this.state.showLoaidngImage ? <LoadingImage/> : null}
 				<PageHeader title="Org"/>
-				{this.state.showAlertMessage ? <AlertMessage 
+				{this.state.showAlertMessage ? <AlertMessage
 					alertClass={this.state.alertClass}
 					message={this.state.alertMessage}/> : null}
 				<div className="container-fluid">
 					<div className="row">
 						<div className="col-md-12 col-lg-8">
-							{this.state.defaultProjectExists ? <CurrentProjectLine 
+							{this.state.defaultProjectExists ? <CurrentProjectLine
 								project={this.state.currentProject}/> : <CurrentProjectNotExist/>}
-							<OrgListCard scratchOrgs={this.state.scratchOrgs} 
+							<OrgListCard scratchOrgs={this.state.scratchOrgs}
 								nonScratchOrgs={this.state.nonScratchOrgs}
 								setDetailOrg={this.setDetailOrg.bind(this)}
 								toggleLoadingImage={this.toggleLoadingImage}
