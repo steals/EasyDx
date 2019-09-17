@@ -20,6 +20,7 @@ addProjectRouter.route('/')
     newProj.alias = req.body.alias;
     newProj.directory = req.body.directory;
     newProj.isDefault = req.body.isDefault;
+    newProj.includeManifest = req.body.includeManifest;
 
     fs.access(newProj.directory, (err) => {
         if(err) {
@@ -28,9 +29,10 @@ addProjectRouter.route('/')
             console.log(err);
             return;
         }
-
+        let createProjectCommand = `cd ${newProj.directory} && sfdx force:project:create -n "${newProj.alias}"`;
+        createProjectCommand += newProj.includeManifest ? ' --manifest' : '';
         cmd.get(
-            `cd ${newProj.directory} && sfdx force:project:create -n ${newProj.alias}`,
+            createProjectCommand,
             function(err, data, stderr) {
                 if(!err) {
                     const isWin = process.platform === "win32";
@@ -46,7 +48,7 @@ addProjectRouter.route('/')
                             }
                         }
                         obj.projects.push(newProj);
-                
+
                         jsonfile.writeFile(projectFile, obj, function(error) {
                             if(error==null) {
                                 res.statusCode = 200;

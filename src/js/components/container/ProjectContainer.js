@@ -92,7 +92,8 @@ class ProjectContainer extends Component {
 		axios.post("api/addProject", {
 			alias: project.alias,
 			directory: project.directory,
-			isDefault: project.isDefault
+			isDefault: project.isDefault,
+			includeManifest: project.includeManifest
 		}).then((res) => {
 			if(res.status === 200) {
 				this.toggleLoadingImage(false);
@@ -158,7 +159,7 @@ class ProjectContainer extends Component {
 
 	removeProject(project) {
 		axios.post("api/removeProject", {
-			alias: project.alias, 
+			alias: project.alias,
 			directory: project.directory
 		}).then((res) => {
 			if(res.status === 200) {
@@ -177,7 +178,7 @@ class ProjectContainer extends Component {
 			<div>
 				{this.state.showLoaidngImage ? <LoadingImage/> : null}
 				<PageHeader title="Project"/>
-				{this.state.showAlertMessage ? <AlertMessage 
+				{this.state.showAlertMessage ? <AlertMessage
 					alertClass={this.state.alertClass}
 					message={this.state.alertMessage}/> : null}
 				<div className="container-fluid">
