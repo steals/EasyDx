@@ -7,40 +7,39 @@ const createPackage2Router = express.Router();
 
 createPackage2Router.use(bodyParser.json());
 
-createPackage2Router.route('/')
-.post((req, res) => {
-    let { directory, packageName, description, packageType } = req.body;
-    const sfdxProjFileName = 'sfdx-project.json';
-    const isWin = process.platform === "win32";
-    let directoryDelimeter = "/";
-    if(isWin) {
-        directoryDelimeter = "\\";
-    }
+createPackage2Router.route('/').post((req, res) => {
+  const { directory, packageName, description, packageType } = req.body;
+  const sfdxProjFileName = 'sfdx-project.json';
+  const isWin = process.platform === 'win32';
+  let directoryDelimeter = '/';
+  if (isWin) {
+    directoryDelimeter = '\\';
+  }
 
-    fs.access(directory + directoryDelimeter + sfdxProjFileName, (err) => {
-        if(err) {
-            res.statusCode = 202;
-            res.send({err: 'The default project directory doesnot exist or doesnot contain a valid sfdx project!'});
-            console.log(err);
-            return;
+  fs.access(directory + directoryDelimeter + sfdxProjFileName, err => {
+    if (err) {
+      res.statusCode = 202;
+      res.send({ err: 'The default project directory doesnot exist or doesnot contain a valid sfdx project!' });
+      console.log(err);
+      return;
+    }
+    console.log('command is: ' + `sfdx force:package2:create -n ${packageName} -d "${description}" -o ${packageType}`);
+    cmd.get(
+      `cd ${directory} && sfdx force:package2:create -n ${packageName} -d "${description}" -o ${packageType} --json`,
+      (cmdErr, data, stderr) => {
+        if (!cmdErr) {
+          res.statusCode = 200;
+          console.log(`data is: ${data}`);
+          res.send(data);
+        } else {
+          res.statusCode = 202;
+          console.log(stderr);
+          const errObj = JSON.parse(stderr);
+          res.send({ err: errObj.message });
         }
-        console.log('command is: ' + `sfdx force:package2:create -n ${packageName} -d "${description}" -o ${packageType}`);
-        cmd.get(
-            `cd ${directory} && sfdx force:package2:create -n ${packageName} -d "${description}" -o ${packageType} --json`,
-            function(err, data, stderr) {
-                if(!err) {
-                    res.statusCode = 200;
-                    console.log('data is: ' + data);
-                    res.send(data);
-                } else {
-                    res.statusCode = 202;
-                    console.log(stderr);
-                    let errObj = JSON.parse(stderr);
-                    res.send({"err": errObj.message});
-                }
-            }
-        );
-    });
+      }
+    );
+  });
 });
 
 module.exports = createPackage2Router;

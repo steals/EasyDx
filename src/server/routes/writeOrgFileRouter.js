@@ -8,15 +8,14 @@ writeOrgFileRouter.use(bodyParser.json());
 
 const orgFile = './data/orgs.json';
 
-writeOrgFileRouter.route('/')
-.post((req, res) => {
-    console.log(req.body.orgObj);
-    let orgObj = req.body.orgObj;
+writeOrgFileRouter.route('/').post((req, res) => {
+  console.log(req.body.orgObj);
+  const { orgObj } = req.body;
 
-    jsonfile.writeFile(orgFile, orgObj, function(error) {
-        res.statusCode = 200;
-        res.send({"message": "success"});
-    });
+  jsonfile.writeFile(orgFile, orgObj, error => {
+    res.statusCode = 200;
+    res.send({ message: 'success' });
+  });
 });
 
 module.exports = writeOrgFileRouter;

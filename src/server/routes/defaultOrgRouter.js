@@ -7,39 +7,38 @@ const defaultOrgRouter = express.Router();
 
 defaultOrgRouter.use(bodyParser.json());
 
-defaultOrgRouter.route('/')
-.post((req, res) => {
-    let directory = req.body.directory;
-    const sfdxProjFileName = 'sfdx-project.json';
-    const isWin = process.platform === "win32";
-    let directoryDelimeter = "/";
-    if(isWin) {
-        directoryDelimeter = "\\";
-    }
+defaultOrgRouter.route('/').post((req, res) => {
+  const { directory } = req.body;
+  const sfdxProjFileName = 'sfdx-project.json';
+  const isWin = process.platform === 'win32';
+  let directoryDelimeter = '/';
+  if (isWin) {
+    directoryDelimeter = '\\';
+  }
 
-    fs.access(directory + directoryDelimeter + sfdxProjFileName, (err) => {
-        if(err) {
-            res.statusCode = 202;
-            res.send({err: 'The default project directory doesnot exist or doesnot contain a valid sfdx project!'});
-            console.log(err);
-            return;
+  fs.access(directory + directoryDelimeter + sfdxProjFileName, err => {
+    if (err) {
+      res.statusCode = 202;
+      res.send({ err: 'The default project directory doesnot exist or doesnot contain a valid sfdx project!' });
+      console.log(err);
+      return;
+    }
+    cmd.get(
+      `cd ${directory} && sfdx force:config:set defaultusername=${req.body.username} --json`,
+      (cmdErr, data, stderr) => {
+        if (!cmdErr) {
+          res.statusCode = 200;
+          console.log(`data is: ${data}`);
+          res.send(data);
+        } else {
+          res.statusCode = 202;
+          console.log(stderr);
+          const errObj = JSON.parse(stderr);
+          res.send({ err: errObj.message });
         }
-        cmd.get(
-            `cd ${directory} && sfdx force:config:set defaultusername=${req.body.username} --json`,
-            function(err, data, stderr) {
-                if(!err) {
-                    res.statusCode = 200;
-                    console.log('data is: ' + data);
-                    res.send(data);
-                } else {
-                    res.statusCode = 202;
-                    console.log(stderr);
-                    let errObj = JSON.parse(stderr);
-                    res.send({"err": errObj.message});
-                }
-            }
-        );
-    });
+      }
+    );
+  });
 });
 
 module.exports = defaultOrgRouter;
