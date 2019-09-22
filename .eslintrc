@@ -3,6 +3,7 @@
     "browser": true,
     "commonjs": true,
     "es6": true,
+    "node": true,
     "jest": true
   },
   "parserOptions": {
@@ -29,6 +30,7 @@
     "no-unused-vars": "warn",
     "constructor-super": "warn",
     "valid-typeof": "warn",
+    "react/jsx-filename-extension": "off",
     "quotes": [2, "single"]
   },
   "parser": "babel-eslint",

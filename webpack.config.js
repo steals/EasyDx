@@ -1,23 +1,25 @@
 const path = require('path');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+
+const outputDirectory = 'dist';
 
 module.exports = {
-  mode: 'development',
-  entry: ['./src/js/app.js'],
+  entry: ['./src/client/index.js'],
   output: {
-    path: path.resolve(__dirname, 'dist'),
-    filename: 'js/[name].js',
+    path: path.resolve(__dirname, outputDirectory),
+    filename: 'app.js',
   },
   module: {
     rules: [
       {
-        test: /\.js$/,
+        test: /\.(js|jsx)$/,
         exclude: /node_modules/,
         use: {
           loader: 'babel-loader',
           options: {
-            presets: ['@babel/preset-env', '@babel/preset-react'],
+            presets: ['@babel/env', '@babel/react'],
           },
         },
       },
@@ -31,20 +33,28 @@ module.exports = {
       },
     ],
   },
+  devServer: {
+    port: 3000,
+    open: true,
+    proxy: {
+      '/api': 'http://localhost:3666',
+    },
+  },
   watchOptions: {
     ignored: /node_modules/,
   },
   plugins: [
+    new CleanWebpackPlugin(),
     new HtmlWebPackPlugin({
-      template: './src/index.html',
+      template: './src/client/index.html',
       filename: './index.html',
     }),
     new CopyWebpackPlugin([
-      { from: 'src/css', to: 'css' },
-      { from: 'src/img', to: 'img' },
-      { from: 'src/fonts', to: 'fonts' },
-      { from: 'src/index.fonts.css', to: '' },
-      { from: 'src/index.styles.css', to: '' },
+      { from: 'src/client/css', to: 'css' },
+      { from: 'src/client/img', to: 'img' },
+      { from: 'src/client/fonts', to: 'fonts' },
+      { from: 'src/client/index.fonts.css', to: '' },
+      { from: 'src/client/index.styles.css', to: '' },
     ]),
   ],
 };
