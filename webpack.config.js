@@ -11,10 +11,13 @@ module.exports = {
     path: path.resolve(__dirname, outputDirectory),
     filename: 'app.js',
   },
+  resolve: {
+    extensions: ['.json', '.js', '.jsx'],
+  },
   module: {
     rules: [
       {
-        test: /\.(js|jsx)$/,
+        test: /\.jsx?$/,
         exclude: /node_modules/,
         use: {
           loader: 'babel-loader',
