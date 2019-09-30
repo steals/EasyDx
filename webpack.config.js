@@ -3,7 +3,7 @@ const HtmlWebPackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
-const outputDirectory = 'dist';
+const outputDirectory = 'build/client';
 
 module.exports = {
   entry: ['./src/client/index.js'],
