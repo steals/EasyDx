@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const path = require('path');
 
 const orgRouter = require('./routes/orgRouter');
 const listOrgRouter = require('./routes/listOrgRouter');
@@ -63,6 +64,9 @@ app.use('/api/listPackage2', listPackage2Router);
 app.use('/api/listPackage2Version', listPackage2VersionRouter);
 app.use('/api/assignPermission', assignPermissionRouter);
 
-app.use(express.static('dist'));
+const DIST_DIR = path.join(__dirname, '../client');
+app.use(express.static(DIST_DIR));
 
 app.listen(port, () => console.log(`Listening to port ${port}`));
+
+module.exports = app;

@@ -2,3 +2,4 @@ node_modules
 mongoData
 data
 dist
+build

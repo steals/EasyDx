@@ -1,17 +1,33 @@
 {
   "name": "easydx",
+  "productName": "Easy DX",
   "version": "1.2.1",
-  "description": "",
+  "description": "Easy DX - UI for Salesforce DX",
   "private": true,
   "bin": {
     "easydx": "index.js"
   },
+  "build": {
+    "appId": "com.salesforce.easydx",
+    "files": [
+      "src/electron.js",
+      "build/**/*",
+      "node_modules/**/*"
+    ],
+    "directories": {
+      "buildResources": "assets"
+    }
+  },
+  "homepage": "./",
   "scripts": {
-    "build": "webpack --mode production",
+    "build": "webpack --mode production && webpack --mode production --config webpack.server.config.js",
     "client": "webpack-dev-server --mode development --devtool inline-source-map",
     "server": "nodemon src/server/index.js",
+    "webpackServer": "webpack-dev-server --mode development --devtool inline-source-map --config webpack.server.config.js",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "electron-dev": "concurrently \"BROWSER=none npm run client\" \"wait-on http://localhost:3000 && electron .\""
+    "electron-dev": "concurrently \"BROWSER=none npm run client\" \"wait-on http://localhost:3000 && electron .\"",
+    "preelectron-pack": "npm run build",
+    "electron-pack": "rm -rf dist && electron-builder"
   },
   "repository": {
     "type": "git",
@@ -19,13 +35,14 @@
   },
   "author": "Lance Shi",
   "license": "GPLv3",
-  "main": "public/electron.js",
+  "main": "src/electron.js",
   "dependencies": {
     "axios": "^0.17.1",
     "bluebird": "^3.5.1",
     "body-parser": "^1.18.2",
     "electron-is-dev": "^1.1.0",
     "express": "^4.17.1",
+    "jquery": "^3.4.1",
     "jsonfile": "^4.0.0",
     "ncp": "^2.0.0",
     "node-cmd": "^3.0.0",
@@ -61,7 +78,8 @@
     "wait-on": "^3.3.0",
     "webpack": "^4.40.2",
     "webpack-cli": "^3.3.8",
-    "webpack-dev-server": "^3.8.1"
+    "webpack-dev-server": "^3.8.1",
+    "webpack-node-externals": "^1.7.2"
   },
   "browserslist": {
     "production": [

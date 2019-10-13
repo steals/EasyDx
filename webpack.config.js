@@ -38,7 +38,7 @@ module.exports = {
   },
   devServer: {
     port: 3000,
-    open: true,
+    open: false,
     proxy: {
       '/api': 'http://localhost:3666',
     },
@@ -58,6 +58,7 @@ module.exports = {
       { from: 'src/client/fonts', to: 'fonts' },
       { from: 'src/client/index.fonts.css', to: '' },
       { from: 'src/client/index.styles.css', to: '' },
+      { from: 'src/electron.js', to: path.resolve(__dirname, 'build') },
     ]),
   ],
 };
