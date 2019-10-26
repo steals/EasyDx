@@ -20,10 +20,11 @@ const createWindow = () => {
     webPreferences: {
       nodeIntegration: true,
     },
+    title: 'Easy DX',
   });
 
   // and load the index.html of the app.
-  mainWindow.loadURL(isDev ? 'http://localhost:3000' : `file://${path.join(__dirname, './client/index.html')}`);
+  mainWindow.loadURL(isDev ? 'http://localhost:3000' : `file://${path.join(__dirname, '../build/client/index.html')}`);
 
   // Open the DevTools.
   mainWindow.webContents.openDevTools();
