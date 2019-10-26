@@ -77,7 +77,7 @@ class ProjectAdd extends Component {
           console.log('No destination folder selected');
         } else {
           this.setState({
-            directory: folderPaths[0],
+            directory: folderPaths[0] || '',
           });
         }
       }

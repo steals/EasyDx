@@ -19,6 +19,7 @@ class ProjectCreate extends Component {
     this.handleDirectoryChange = this.handleDirectoryChange.bind(this);
     this.handleCreateProject = this.handleCreateProject.bind(this);
     this.handleDefaultChange = this.handleDefaultChange.bind(this);
+    this.handleBrowseFolder = this.handleBrowseFolder.bind(this);
   }
 
   handleAliasChange(event) {
@@ -68,6 +69,26 @@ class ProjectCreate extends Component {
     });
   }
 
+  // eslint-disable-next-line class-methods-use-this
+  handleBrowseFolder() {
+    dialog.showOpenDialog(
+      {
+        title: 'Select a folder',
+        properties: ['openDirectory', 'createDirectory'],
+      },
+      folderPaths => {
+        // folderPaths is an array that contains all the selected paths
+        if (folderPaths === undefined) {
+          console.log('No destination folder selected');
+        } else {
+          this.setState({
+            directory: folderPaths[0] || '',
+          });
+        }
+      }
+    );
+  }
+
   render() {
     const { alias, isDefault, includeManifest, directory } = this.state;
     return (
@@ -101,7 +122,14 @@ class ProjectCreate extends Component {
           </div>
           <div className="row from-group input-bar">
             <label>Please specify the project&apos;s directory</label>
-            <input type="text" className="form-control" value={directory} onChange={this.handleDirectoryChange} />
+            <div className="input-group">
+              <input type="text" className="form-control" value={directory} onChange={this.handleDirectoryChange} />
+              <span className="input-group-btn">
+                <button type="button" className="btn btn-primary btn-md" onClick={this.handleBrowseFolder}>
+                  Browse
+                </button>
+              </span>
+            </div>
           </div>
           <div className="card-footer todo-list-footer">
             <div className="input-group">
