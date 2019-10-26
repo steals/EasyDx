@@ -31,6 +31,8 @@
     "constructor-super": "warn",
     "valid-typeof": "warn",
     "react/jsx-filename-extension": "off",
+    "react/react/require-default-props": "off",
+    "jsx-a11y/label-has-associated-control": "off",
     "quotes": [2, "single"]
   },
   "parser": "babel-eslint",
