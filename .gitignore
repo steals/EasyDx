@@ -3,3 +3,6 @@ mongoData
 data
 dist
 build
+
+.DS_Store
+.vscode
