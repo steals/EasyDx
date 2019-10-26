@@ -61,4 +61,5 @@ module.exports = {
       { from: 'src/electron.js', to: path.resolve(__dirname, 'build') },
     ]),
   ],
+  target: 'electron-renderer',
 };
