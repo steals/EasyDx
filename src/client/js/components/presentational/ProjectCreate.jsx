@@ -1,4 +1,8 @@
+/* eslint-disable react/require-default-props */
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+
+const { dialog } = require('electron').remote;
 
 class ProjectCreate extends Component {
   constructor() {
@@ -25,32 +29,36 @@ class ProjectCreate extends Component {
     this.setState({ directory: event.target.value });
   }
 
-  handleDefaultChange(event) {
-    this.setState({ isDefault: !this.state.isDefault });
+  handleDefaultChange() {
+    const { isDefault } = this.state;
+    this.setState({ isDefault: !isDefault });
   }
 
-  handleIncludeManifestChange(event) {
-    this.setState({ includeManifest: !this.state.includeManifest });
+  handleIncludeManifestChange() {
+    const { includeManifest } = this.state;
+    this.setState({ includeManifest: !includeManifest });
   }
 
   handleCreateProject() {
-    if (this.state.alias === '') {
-      this.props.showAlertMessage('danger', 'Please populate the alias of the project');
+    const { showAlertMessage, createProject } = this.props;
+    const { alias, directory, isDefault, includeManifest } = this.state;
+    if (alias === '') {
+      showAlertMessage('danger', 'Please populate the alias of the project');
       return;
     }
-    if (this.state.directory === '') {
-      this.props.showAlertMessage('danger', 'Please populate the directory to create the project');
+    if (directory === '') {
+      showAlertMessage('danger', 'Please populate the directory to create the project');
       return;
     }
 
     const project = {
-      alias: this.state.alias,
-      directory: this.state.directory,
-      isDefault: this.state.isDefault,
-      includeManifest: this.state.includeManifest,
+      alias,
+      directory,
+      isDefault,
+      includeManifest,
     };
 
-    this.props.createProject(project);
+    createProject(project);
 
     this.setState({
       alias: '',
@@ -61,6 +69,7 @@ class ProjectCreate extends Component {
   }
 
   render() {
+    const { alias, isDefault, includeManifest, directory } = this.state;
     return (
       <div className="card mb-4">
         <div className="card-header">
@@ -72,7 +81,7 @@ class ProjectCreate extends Component {
             <div className="checkbox form-check">
               <input
                 type="checkbox"
-                defaultChecked={this.state.isDefault}
+                defaultChecked={isDefault}
                 onChange={this.handleDefaultChange}
                 className="form-check-input form-check-input"
               />
@@ -83,7 +92,7 @@ class ProjectCreate extends Component {
             <div className="checkbox form-check">
               <input
                 type="checkbox"
-                defaultChecked={this.state.includeManifest}
+                defaultChecked={includeManifest}
                 onChange={this.handleIncludeManifestChange}
                 className="form-check-input form-check-input"
               />
@@ -91,13 +100,8 @@ class ProjectCreate extends Component {
             </div>
           </div>
           <div className="row from-group input-bar">
-            <label>Please specify the project's directory</label>
-            <input
-              type="text"
-              className="form-control"
-              value={this.state.directory}
-              onChange={this.handleDirectoryChange}
-            />
+            <label>Please specify the project&apos;s directory</label>
+            <input type="text" className="form-control" value={directory} onChange={this.handleDirectoryChange} />
           </div>
           <div className="card-footer todo-list-footer">
             <div className="input-group">
@@ -105,7 +109,7 @@ class ProjectCreate extends Component {
                 type="text"
                 className="form-control input-md"
                 placeholder="Alias"
-                value={this.state.alias}
+                value={alias}
                 onChange={this.handleAliasChange}
               />
               <span className="input-group-btn">
@@ -120,5 +124,10 @@ class ProjectCreate extends Component {
     );
   }
 }
+
+ProjectCreate.propTypes = {
+  showAlertMessage: PropTypes.func,
+  createProject: PropTypes.func,
+};
 
 export default ProjectCreate;
