@@ -23,6 +23,7 @@
     "build": "webpack --mode production && webpack --mode production --config webpack.server.config.js",
     "client": "webpack-dev-server --mode development --devtool inline-source-map",
     "server": "nodemon src/server/index.js",
+    "buildServer": "webpack --mode production --config webpack.server.config.js",
     "webpackServer": "webpack-dev-server --mode development --devtool inline-source-map --config webpack.server.config.js",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "electron-dev": "concurrently \"BROWSER=none npm run client\" \"wait-on http://localhost:3000 && electron .\"",

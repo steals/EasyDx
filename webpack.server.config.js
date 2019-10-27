@@ -17,7 +17,7 @@ module.exports = (env, argv) => {
     output: {
       path: path.join(__dirname, 'build/server'),
       publicPath: '/',
-      filename: 'server.js',
+      filename: 'index.js',
     },
     mode: argv.mode,
     target: 'node',
