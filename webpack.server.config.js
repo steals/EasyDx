@@ -41,7 +41,7 @@ module.exports = (env, argv) => {
       ],
     },
     devServer: {
-      port: 3666,
+      port: 3777,
     },
     plugins: [
       new CleanWebpackPlugin(),

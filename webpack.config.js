@@ -40,7 +40,7 @@ module.exports = {
     port: 3000,
     open: false,
     proxy: {
-      '/api': 'http://localhost:3666',
+      '/api': 'http://localhost:3777',
     },
   },
   watchOptions: {

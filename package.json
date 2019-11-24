@@ -5,14 +5,13 @@
   "description": "Easy DX - UI for Salesforce DX",
   "private": true,
   "bin": {
-    "easydx": "index.js"
+    "easydx": "src/electron.js"
   },
   "build": {
     "appId": "com.salesforce.easydx",
     "files": [
       "src/electron.js",
-      "build/**/*",
-      "node_modules/**/*"
+      "build/**/*"
     ],
     "directories": {
       "buildResources": "assets"
@@ -43,7 +42,9 @@
     "bluebird": "^3.5.1",
     "body-parser": "^1.18.2",
     "bootstrap": "^4.0.0",
+    "child_process": "^1.0.2",
     "electron-is-dev": "^1.1.0",
+    "electron-log": "^3.0.9",
     "express": "^4.17.1",
     "fs": "0.0.1-security",
     "jquery": "^3.4.1",
