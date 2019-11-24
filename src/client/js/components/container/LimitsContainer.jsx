@@ -9,6 +9,9 @@ import PageHeader from '../presentational/PageHeader';
 import LimitsRetrieve from '../presentational/LimitsRetrieve';
 import LimitsResult from '../presentational/LimitsResult';
 
+const port = process.env.PORT || 3777;
+const serverBaseUrl = `http://localhost:${port}`;
+
 class LimitsContainer extends Component {
   constructor() {
     super();
@@ -22,7 +25,7 @@ class LimitsContainer extends Component {
       limitsList: [],
     };
 
-    axios.get('/api/project').then(res => {
+    axios.get(`${serverBaseUrl}/api/project`).then(res => {
       const { projects } = res.data;
       let defaultExists = false;
       let defaultProject = {};
@@ -72,7 +75,7 @@ class LimitsContainer extends Component {
     }
     this.setState({ showLoaidngImage: true });
     axios
-      .post('/api/retrieveLimits', {
+      .post(`${serverBaseUrl}/api/retrieveLimits`, {
         directory: this.state.currentProject.directory,
         otherOrg,
         alias,

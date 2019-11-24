@@ -10,6 +10,9 @@ import Package2Create from '../presentational/Package2Create';
 import Package2List from '../presentational/Package2List';
 import Package2VersionList from '../presentational/Package2VersionList';
 
+const port = process.env.PORT || 3777;
+const serverBaseUrl = `http://localhost:${port}`;
+
 class PackageContainer extends Component {
   constructor() {
     super();
@@ -24,7 +27,7 @@ class PackageContainer extends Component {
       versionList: [],
     };
 
-    axios.get('/api/project').then(res => {
+    axios.get(`${serverBaseUrl}/api/project`).then(res => {
       const { projects } = res.data;
       let defaultExists = false;
       let defaultProject = {};
@@ -76,7 +79,7 @@ class PackageContainer extends Component {
     }
     this.toggleLoadingImage(true);
     axios
-      .post('/api/createPackage2', {
+      .post(`${serverBaseUrl}/api/createPackage2`, {
         packageName,
         packageType,
         description,
@@ -111,7 +114,7 @@ class PackageContainer extends Component {
     }
     this.toggleLoadingImage(true);
     axios
-      .post('/api/listPackage2', {
+      .post(`${serverBaseUrl}/api/listPackage2`, {
         directory: this.state.currentProject.directory,
       })
       .then(res => {
@@ -136,7 +139,7 @@ class PackageContainer extends Component {
     }
     this.toggleLoadingImage(true);
     axios
-      .post('/api/listPackage2Version', {
+      .post(`${serverBaseUrl}/api/listPackage2Version`, {
         directory: this.state.currentProject.directory,
       })
       .then(res => {

@@ -12,6 +12,9 @@ import UserDetail from '../presentational/UserDetail';
 import UserCreate from '../presentational/UserCreate';
 import UserAssignPerm from '../presentational/UserAssignPerm';
 
+const port = process.env.PORT || 3777;
+const serverBaseUrl = `http://localhost:${port}`;
+
 class UserContainer extends Component {
   constructor() {
     super();
@@ -27,7 +30,7 @@ class UserContainer extends Component {
       showDetailUser: false,
     };
 
-    axios.get('/api/org').then(res => {
+    axios.get(`${serverBaseUrl}/api/org`).then(res => {
       const { nonScratchOrgs, scratchOrgs } = res.data.orgs;
       for (let i = 0; i < scratchOrgs.length; i += 1) {
         if (scratchOrgs[i].defaultMarker === '(U)') {
@@ -80,7 +83,7 @@ class UserContainer extends Component {
   createUser(org) {
     this.setState({ showLoaidngImage: true });
     axios
-      .post('/api/createUser', {
+      .post(`${serverBaseUrl}/api/createUser`, {
         org,
       })
       .then(res => {
@@ -98,7 +101,7 @@ class UserContainer extends Component {
   generatePassword(user) {
     this.setState({ showLoaidngImage: true });
     axios
-      .post('/api/generatePassword', {
+      .post(`${serverBaseUrl}/api/generatePassword`, {
         userName: user.username,
       })
       .then(res => {
@@ -116,7 +119,7 @@ class UserContainer extends Component {
   refreshUserList(org) {
     this.setState({ showLoaidngImage: true });
     axios
-      .post('/api/user', {
+      .post(`${serverBaseUrl}/api/user`, {
         org,
       })
       .then(res => {
@@ -137,7 +140,7 @@ class UserContainer extends Component {
   assignPermission(userName, permissionName) {
     this.toggleLoadingImage(true);
     axios
-      .post('/api/assignPermission', {
+      .post(`${serverBaseUrl}/api/assignPermission`, {
         userName,
         permissionSet: permissionName,
       })

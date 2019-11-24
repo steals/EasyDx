@@ -12,6 +12,9 @@ import OrgConnect from '../presentational/OrgConnect';
 import OrgCreate from '../presentational/OrgCreate';
 import OrgChangeAlias from '../presentational/OrgChangeAlias';
 
+const port = process.env.PORT || 3777;
+const serverBaseUrl = `http://localhost:${port}`;
+
 class OrgContainer extends Component {
   constructor() {
     super();
@@ -28,7 +31,7 @@ class OrgContainer extends Component {
       alertMessage: '',
     };
 
-    axios.get('/api/project').then(res => {
+    axios.get(`${serverBaseUrl}/api/project`).then(res => {
       const { projects } = res.data;
       let defaultExists = false;
       let defaultProject = {};
@@ -45,7 +48,7 @@ class OrgContainer extends Component {
       });
     });
 
-    axios.get('/api/org').then(res => {
+    axios.get(`${serverBaseUrl}/api/org`).then(res => {
       const { orgs } = res.data;
 
       this.setState({
@@ -68,7 +71,7 @@ class OrgContainer extends Component {
   handleRefreshOrgs(e) {
     this.setState({ showLoaidngImage: true });
     axios
-      .post('/api/listOrg', {
+      .post(`${serverBaseUrl}/api/listOrg`, {
         directory: this.state.currentProject.directory,
       })
       .then(res => {
@@ -94,7 +97,7 @@ class OrgContainer extends Component {
     }
     this.toggleLoadingImage(true);
     axios
-      .post('/api/connectOrg', {
+      .post(`${serverBaseUrl}/api/connectOrg`, {
         isDevHub,
         isSandbox,
         alias,
@@ -124,7 +127,7 @@ class OrgContainer extends Component {
     }
     this.toggleLoadingImage(true);
     axios
-      .post('/api/createOrg', {
+      .post(`${serverBaseUrl}/api/createOrg`, {
         isDefault,
         directory: this.state.currentProject.directory,
         alias,
@@ -146,7 +149,7 @@ class OrgContainer extends Component {
   deleteOrg(orgName) {
     this.toggleLoadingImage(true);
     axios
-      .post('/api/deleteOrg', {
+      .post(`${serverBaseUrl}/api/deleteOrg`, {
         orgName,
       })
       .then(res => {

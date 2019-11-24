@@ -8,6 +8,9 @@ import AlertMessage from '../presentational/AlertMessage';
 import PageHeader from '../presentational/PageHeader';
 import LoadingImage from '../presentational/LoadingImage';
 
+const port = process.env.PORT || 3777;
+const serverBaseUrl = `http://localhost:${port}`;
+
 class ProjectContainer extends Component {
   constructor() {
     super();
@@ -20,7 +23,7 @@ class ProjectContainer extends Component {
       alertMessage: '',
       showLoaidngImage: false,
     };
-    axios.get('/api/project').then(res => {
+    axios.get(`${serverBaseUrl}/api/project`).then(res => {
       this.setState({
         projects: res.data.projects,
       });

@@ -9,6 +9,9 @@ import PageHeader from '../presentational/PageHeader';
 import CreatePanel from '../presentational/CreatePanel';
 import CreateLightning from '../presentational/CreateLightning';
 
+const port = process.env.PORT || 3777;
+const serverBaseUrl = `http://localhost:${port}`;
+
 class CreateContainer extends Component {
   constructor() {
     super();
@@ -21,7 +24,7 @@ class CreateContainer extends Component {
       alertMessage: '',
     };
 
-    axios.get('/api/project').then(res => {
+    axios.get(`${serverBaseUrl}/api/project`).then(res => {
       const { projects } = res.data;
       let defaultExists = false;
       let defaultProject = {};
@@ -71,7 +74,7 @@ class CreateContainer extends Component {
     }
     this.setState({ showLoaidngImage: true });
     axios
-      .post('/api/create', {
+      .post(`${serverBaseUrl}/api/create`, {
         directory: this.state.currentProject.directory,
         methodName,
         componentName,

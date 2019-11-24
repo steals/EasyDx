@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
+const port = process.env.PORT || 3777;
+const serverBaseUrl = `http://localhost:${port}`;
+
 class OrgRow extends Component {
   constructor(props) {
     super(props);
@@ -18,7 +21,7 @@ class OrgRow extends Component {
   handleOpenOrg() {
     this.props.toggleLoadingImage(true);
     axios
-      .post('/api/org', {
+      .post(`${serverBaseUrl}/api/org`, {
         username: this.props.org.username,
       })
       .then(res => {
@@ -27,7 +30,7 @@ class OrgRow extends Component {
           this.props.showAlertMessage('success', 'Org opened successfully');
         } else {
           this.props.toggleLoadingImage(false);
-          this.props.showAlertMessage('danger', 'Error:' + res.data.err);
+          this.props.showAlertMessage('danger', `Error:${res.data.err}`);
         }
       });
   }

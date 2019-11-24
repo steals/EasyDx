@@ -13,6 +13,9 @@ import PageHeader from '../presentational/PageHeader';
 import ProjectConvertResult from '../presentational/ProjectConvertResult';
 import DeployFailedResult from '../presentational/DeployFailedResult';
 
+const port = process.env.PORT || 3777;
+const serverBaseUrl = `http://localhost:${port}`;
+
 class SourceContainer extends Component {
   constructor() {
     super();
@@ -32,7 +35,7 @@ class SourceContainer extends Component {
       alertMessage: '',
     };
 
-    axios.get('/api/project').then(res => {
+    axios.get(`${serverBaseUrl}/api/project`).then(res => {
       const { projects } = res.data;
       let defaultExists = false;
       let defaultProject = {};
@@ -88,7 +91,7 @@ class SourceContainer extends Component {
       showFailedResult: false,
     });
     axios
-      .post('/api/source', {
+      .post(`${serverBaseUrl}/api/source`, {
         directory: this.state.currentProject.directory,
       })
       .then(res => {
@@ -147,7 +150,7 @@ class SourceContainer extends Component {
       showPushedSource: false,
     });
     axios
-      .post('/api/pushSource', {
+      .post(`${serverBaseUrl}/api/pushSource`, {
         directory: this.state.currentProject.directory,
         force: forcePush,
         otherOrg,
@@ -206,7 +209,7 @@ class SourceContainer extends Component {
       showPushedSource: false,
     });
     axios
-      .post('/api/pullSource', {
+      .post(`${serverBaseUrl}/api/pullSource`, {
         directory: this.state.currentProject.directory,
         force: forcePull,
         otherOrg,
@@ -253,7 +256,7 @@ class SourceContainer extends Component {
     }
     this.setState({ showLoaidngImage: true });
     axios
-      .post('/api/retrieveSource', {
+      .post(`${serverBaseUrl}/api/retrieveSource`, {
         directory: this.state.currentProject.directory,
         otherOrg,
         alias,
