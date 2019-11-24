@@ -1,30 +1,22 @@
+const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
 const jsonfile = require('jsonfile');
 const cmd = require('node-cmd');
-const fs = require('fs');
+const util = require('../util');
 
 const orgRouter = express.Router();
-const orgFile = './data/orgs.json';
+const userDataPath = util.getSettingsFolder();
+const orgFile = path.join(userDataPath, './data/orgs.json');
 
 orgRouter.use(bodyParser.json());
-const { ncp } = require('ncp');
 
 orgRouter
   .route('/')
   .get((req, res) => {
-    const dir = './data';
-    if (!fs.existsSync(dir)) {
-      ncp('./dataSample', './data', () => {
-        jsonfile.readFile(orgFile, (err, obj) => {
-          res.send(JSON.stringify(obj));
-        });
-      });
-    } else {
-      jsonfile.readFile(orgFile, (err, obj) => {
-        res.send(JSON.stringify(obj));
-      });
-    }
+    jsonfile.readFile(orgFile, (err, obj) => {
+      res.send(JSON.stringify(obj));
+    });
   })
   .post((req, res) => {
     cmd.get(`sfdx force:org:open -u ${req.body.username} --json`, (err, data, stderr) => {

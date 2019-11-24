@@ -2,6 +2,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
 
+const fs = require('fs');
+const { ncp } = require('ncp');
 const orgRouter = require('./routes/orgRouter');
 const listOrgRouter = require('./routes/listOrgRouter');
 const defaultOrgRouter = require('./routes/defaultOrgRouter');
@@ -30,9 +32,10 @@ const createPackage2Router = require('./routes/createPackage2Router');
 const listPackage2Router = require('./routes/listPackage2Router');
 const listPackage2VersionRouter = require('./routes/listPackage2VersionRouter');
 const assignPermissionRouter = require('./routes/assignPermissionRouter');
+const util = require('./util');
 
 const app = express();
-const port = process.env.PORT || 3666;
+const port = process.env.PORT || 3777;
 app.use(bodyParser.json());
 
 app.use((req, res, next) => {
@@ -73,6 +76,14 @@ app.use('/api/assignPermission', assignPermissionRouter);
 const DIST_DIR = path.join(__dirname, '../client');
 app.use(express.static(DIST_DIR));
 
-app.listen(port, () => console.log(`Listening to port ${port}`));
+app.listen(port, () => console.log(`Express. Listening to port ${port}`));
+
+const userDataPath = util.getSettingsFolder();
+const dir = path.resolve(userDataPath, 'data');
+if (!fs.existsSync(dir)) {
+  fs.mkdirSync(dir);
+  const samplesDir = path.join(__dirname, './dataSample');
+  ncp(samplesDir, dir);
+}
 
 module.exports = app;

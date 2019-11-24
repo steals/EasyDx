@@ -58,8 +58,6 @@ module.exports = {
       { from: 'src/client/fonts', to: 'fonts' },
       { from: 'src/client/index.fonts.css', to: '' },
       { from: 'src/client/index.styles.css', to: '' },
-      { from: 'dataSample/orgs.json', to: path.resolve(__dirname, 'build/dataSample') },
-      { from: 'dataSample/projects.json', to: path.resolve(__dirname, 'build/dataSample') },
     ]),
   ],
   target: 'electron-renderer',

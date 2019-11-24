@@ -1,29 +1,21 @@
+const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
 const jsonfile = require('jsonfile');
-const fs = require('fs');
+const util = require('../util');
 
 const projectRouter = express.Router();
 projectRouter.use(bodyParser.json());
 
-const projectFile = './data/projects.json';
-const { ncp } = require('ncp');
+const userDataPath = util.getSettingsFolder();
+const projectFile = path.join(userDataPath, './data/projects.json');
 
 projectRouter
   .route('/')
   .get((req, res) => {
-    const dir = './data';
-    if (!fs.existsSync(dir)) {
-      ncp('./dataSample', './data', () => {
-        jsonfile.readFile(projectFile, (err, obj) => {
-          res.send(JSON.stringify(obj));
-        });
-      });
-    } else {
-      jsonfile.readFile(projectFile, (err, obj) => {
-        res.send(JSON.stringify(obj));
-      });
-    }
+    jsonfile.readFile(projectFile, (err, obj) => {
+      res.send(JSON.stringify(obj));
+    });
   })
   .post((req, res) => {
     const newProj = {};

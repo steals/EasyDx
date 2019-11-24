@@ -7,6 +7,7 @@
  */
 const path = require('path');
 const nodeExternals = require('webpack-node-externals');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = (env, argv) => {
@@ -42,6 +43,12 @@ module.exports = (env, argv) => {
     devServer: {
       port: 3666,
     },
-    plugins: [new CleanWebpackPlugin()],
+    plugins: [
+      new CleanWebpackPlugin(),
+      new CopyWebpackPlugin([
+        { from: 'src/server/dataSample/orgs.json', to: 'dataSample' },
+        { from: 'src/server/dataSample/projects.json', to: 'dataSample' },
+      ]),
+    ],
   };
 };
