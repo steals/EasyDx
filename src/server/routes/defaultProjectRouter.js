@@ -1,11 +1,14 @@
+const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
 const jsonfile = require('jsonfile');
+const util = require('../util');
 
 const defaultProjectRouter = express.Router();
 defaultProjectRouter.use(bodyParser.json());
 
-const projectFile = './data/projects.json';
+const userDataPath = util.getSettingsFolder();
+const projectFile = path.join(userDataPath, './data/projects.json');
 
 defaultProjectRouter.route('/').post((req, res) => {
   const newProj = {};

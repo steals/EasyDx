@@ -1,13 +1,16 @@
+const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
 const jsonfile = require('jsonfile');
 const fs = require('fs');
 const cmd = require('node-cmd');
+const util = require('../util');
 
 const addProjectRouter = express.Router();
 addProjectRouter.use(bodyParser.json());
 
-const projectFile = './data/projects.json';
+const userDataPath = util.getSettingsFolder();
+const projectFile = path.join(userDataPath, './data/projects.json');
 
 addProjectRouter
   .route('/')

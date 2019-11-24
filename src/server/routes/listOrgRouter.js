@@ -1,10 +1,14 @@
+const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
 const cmd = require('node-cmd');
 const jsonfile = require('jsonfile');
+const util = require('../util');
 
 const listOrgRouter = express.Router();
-const orgFile = './data/orgs.json';
+
+const userDataPath = util.getSettingsFolder();
+const orgFile = path.join(userDataPath, './data/orgs.json');
 
 listOrgRouter.use(bodyParser.json());
 

@@ -1,12 +1,14 @@
+const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
 const jsonfile = require('jsonfile');
-const fs = require('fs');
+const util = require('../util');
 
 const removeProjectRouter = express.Router();
 removeProjectRouter.use(bodyParser.json());
 
-const projectFile = './data/projects.json';
+const userDataPath = util.getSettingsFolder();
+const projectFile = path.join(userDataPath, './data/projects.json');
 
 removeProjectRouter.route('/').post((req, res) => {
   const projectToRemove = {};
