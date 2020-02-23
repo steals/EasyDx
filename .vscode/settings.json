@@ -4,6 +4,11 @@
     "editor.formatOnSave": false
   },
   "eslint.alwaysShowStatus": true,
-  "eslint.autoFixOnSave": true,
-  "prettier.disableLanguages": ["js", "jsx"]
+  "prettier.disableLanguages": [
+    "js",
+    "jsx"
+  ],
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  }
 }
