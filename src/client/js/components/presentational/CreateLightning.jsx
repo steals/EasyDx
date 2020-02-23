@@ -28,16 +28,16 @@ class CreateLightning extends Component {
     return (
       <div className="card mb-4">
         <div className="card-header">
-          <strong>Create Lightning Components</strong>
+          <strong>Create Aura Components</strong>
         </div>
         <div className="card-body">
           <div className="row form-group input-bar">
             <label>Select what you want to create</label>
             <select className="form-control" value={this.state.methodName} onChange={this.handleChangeMethod}>
-              <option value="LightningApp">Lightning App</option>
-              <option value="LightningComponent">Lightning Component</option>
-              <option value="LightningEvent">Lightning Event</option>
-              <option value="LightningInterface">Lightning Interface</option>
+              <option value="LightningApp">Aura App</option>
+              <option value="LightningComponent">Aura Component</option>
+              <option value="LightningEvent">Aura Event</option>
+              <option value="LightningInterface">Aura Interface</option>
             </select>
           </div>
           <div className="row from-group input-bar">
