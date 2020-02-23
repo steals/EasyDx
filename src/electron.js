@@ -46,9 +46,9 @@ const createWindow = () => {
   }
 
   // Open the DevTools.
-  // if (isDev) {
-  mainWindow.webContents.openDevTools();
-  // }
+  if (isDev) {
+    mainWindow.webContents.openDevTools();
+  }
 
   // Emitted when the window is closed.
   mainWindow.on('closed', () => {
