@@ -34,7 +34,7 @@ class Package2Create extends Component {
     return (
       <div className="card mb-4">
         <div className="card-header">
-          <strong>Create Apex and Visualforce</strong>
+          <strong>Create Package</strong>
         </div>
         <div className="card-body">
           <div className="row form-group input-bar">
